@@ -1,0 +1,3 @@
+export const CACHE_CONSTANT = {
+    NOTIFY_QUEUE_PREFIX: 'NOTIFY_QUEUE:',
+};

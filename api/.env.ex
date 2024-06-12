@@ -1,0 +1,15 @@
+DATABASE_URL=mysql://root:root@localhost:3306/pharma_be
+PORT=8686
+# auth config
+AUTH_SALT_ROUND=10
+AUTH_JWT_ACCESS_SECRET=RSXSyTVIeSFmtLuVavdX6yn38ZzaL8A4xWuCUthzQMYpsHFI6e7LT6SzyN4aITFm
+AUTH_ADMIN_JWT_ACCESS_EXPIRES_IN=365d
+
+# node mailer
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=gotutravel22@gmail.com
+MAIL_PASSWORD=ypyyausbeacnroal
+
+# LANGUAGE
+FALLBACK_LANGUAGE=vi

@@ -1,0 +1,81 @@
+version: "3.9.1"
+services:
+  minio:
+    image: minio/minio
+    profiles: [ "backend" ]
+    container_name: minio
+    ports:
+      - "9001:9001"
+      - "9002:9002"
+    volumes:
+      - ./storage:/data
+    environment:
+      MINIO_ROOT_USER: admin12345
+      MINIO_ROOT_PASSWORD: admin12345
+    command: server --console-address ":9001" /data
+
+  redis:
+    image: redis:latest
+    profiles: [ "backend" ]
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./cache:/data
+
+  database:
+    image: mysql
+    profiles: [ "backend" ]
+    ports:
+      - "3306:3316"
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ${PROJECT_DIR}/gotu-database/data:/var/lib/mysql
+      - ${PROJECT_DIR}/gotu-database/init:/docker-entrypoint-initdb.d/
+
+  backend-service:
+    profiles: [ "backend" ]
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      #      target: prod
+      target: dev # dev environment
+    ports:
+      - "9000:8686"
+    restart: always
+    environment:
+      - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/goto_be_dev
+      - APP_PORT=9000
+      - AUTH_SALT_ROUND=10
+      - AUTH_JWT_ACCESS_SECRET=380cd382dda12b94a0f9188518e80db93134365a86de31cd0502500b060e8d8c
+      - AUTH_ADMIN_JWT_ACCESS_EXPIRES_IN=365d
+      - AUTH_JWT_REFRESH_SECRET=b644fdfc52d7eb4bbb5f46105f47baa3d53281526d926bca949ef9190bba0593
+      - AUTH_ADMIN_JWT_REFRESH_EXPIRES_IN=720m
+      - OTP_EXPIRED_MINUTES=10
+      - OTP_LENGTH=4
+      - VNP_TMN_CODE=DB0WYZBF
+      - VNP_HASH_SECRET=FGSHPCWJVBLRHKMYAGKNMOZYUNHQVXBN
+      - VNP_URL=https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+      - VNP_RETURN_URL=${VNP_RETURN_URL}
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=123456
+      - REDIS_HOST=redis
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_USERNAME=gotutravel22@gmail.com
+      - MAIL_PASSWORD=ypyyausbeacnroal
+      - BASE_URL=${BASE_URL}
+      - FALLBACK_LANGUAGE=en
+      - AUTH_FACEBOOK_GRAPH_URL=https://graph.facebook.com/v17.0/me
+      - AUTH_GOOGLE_OAUTH_URL=https://oauth2.googleapis.com/tokeninfo
+      - AUTH_APPLE_CLIENT_ID_CUSTOMER=gotoyou.gotu
+      - AUTH_APPLE_CLIENT_ID_TOUR_GUIDE=gotu.tourguide.gotu
+
+volumes:
+  backend_service:
+    driver: local
