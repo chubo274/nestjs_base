@@ -2,11 +2,11 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { User, UserRole } from '@prisma/client';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UserStatus } from 'src/constants/enum.constant';
-import { BaseException, Errors } from 'src/constants/error.constant';
+import { UserStatus } from 'src/helpers/constants/enum.constant';
+import { BaseException, Errors } from 'src/helpers/constants/error.constant';
 import { UserService } from 'src/models/user/user.service';
-import { BackendConfigService } from 'src/services/backend-config.service';
-import { _excludeObject } from 'src/utils/common.utils';
+import { BackendConfigService } from 'src/core/services/backend-config.service';
+import { _excludeObject } from 'src/helpers/functions/common.utils';
 import { IJwtPayload } from '../interfaces/jwt-payload.interface';
 export interface IUserJwt {
   data: User;

@@ -7,11 +7,11 @@ import {
 import phoneCode from 'country-codes-list';
 import { PrismaService } from 'prisma/prisma.service';
 import { AppService } from './app.service';
-import { BaseException, Errors } from './constants/error.constant';
-import { I18nCustomService } from './i18n/i18n.service';
+import { BaseException, Errors } from './helpers/constants/error.constant';
+import { I18nCustomService } from './resources/i18n/i18n.service';
 import {
     getDistrictsByProvince, getProvinces, getWardsByDistrict
-} from './utils/location.utils';
+} from './helpers/functions/location.utils';
 @Controller()
 export class AppController {
     constructor(

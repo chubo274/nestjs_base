@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import path from 'path';
-import configurationCommon from 'src/common/configuration.common';
+import configurationCommon from 'src/helpers/common/configuration.common';
 import { UploadModule } from './upload/upload.module';
 import { NodeMailerModule } from './node-mailer/node-mailer.module';
 import { CronTasksModule } from './cron-tasks/cron-tasks.module';

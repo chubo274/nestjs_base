@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OtpAction } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
-import { BaseException, Errors } from 'src/constants/error.constant';
-import { BackendConfigService } from 'src/services/backend-config.service';
-import { getTimeFromNow } from 'src/utils/common.utils';
+import { BaseException, Errors } from 'src/helpers/constants/error.constant';
+import { BackendConfigService } from 'src/core/services/backend-config.service';
+import { getTimeFromNow } from 'src/helpers/functions/common.utils';
 
 @Injectable()
 export class OtpService {

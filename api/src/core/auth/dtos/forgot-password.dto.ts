@@ -6,7 +6,7 @@ import {
     IsNotEmpty, IsString,
     NotContains
 } from 'class-validator';
-import { UserRole } from 'src/constants/enum.constant';
+import { UserRole } from 'src/helpers/constants/enum.constant';
 
 export class ForgotPassword {
   @ApiProperty({

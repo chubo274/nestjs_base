@@ -12,12 +12,12 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { Prisma, User, UserRole, UserStatus } from '@prisma/client';
-import { AuthService } from 'src/auth/auth.service';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { SortOrder } from 'src/constants/enum.constant';
-import { BaseException, Errors } from 'src/constants/error.constant';
+import { AuthService } from 'src/core/auth/auth.service';
+import { Roles } from 'src/core/auth/decorators/roles.decorator';
+import { JwtAuthGuard } from 'src/core/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/core/auth/guards/roles.guard';
+import { SortOrder } from 'src/helpers/constants/enum.constant';
+import { BaseException, Errors } from 'src/helpers/constants/error.constant';
 import { funcListPaging } from 'src/helpers/list-paging';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';

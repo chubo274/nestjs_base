@@ -9,6 +9,7 @@ import {
     IsString
 } from 'class-validator';
 import { MediaType, SortOrder } from '../constants/enum.constant';
+
 export class FilterOptions {
     @ApiProperty({
         example: 1,

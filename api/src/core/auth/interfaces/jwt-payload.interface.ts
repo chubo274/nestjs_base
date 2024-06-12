@@ -1,4 +1,4 @@
-import { Platform } from 'src/constants/enum.constant';
+import { Platform } from 'src/helpers/constants/enum.constant';
 import { UserRole } from '@prisma/client';
 
 export class IJwtPayload {

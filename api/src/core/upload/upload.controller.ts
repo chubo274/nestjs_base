@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { MediaType } from 'src/constants/enum.constant';
-import { RegexConstant } from 'src/constants/regex.constant';
-import { mimeTypeToMediaType } from 'src/utils/common.utils';
+import { MediaType } from 'src/helpers/constants/enum.constant';
+import { RegexConstant } from 'src/helpers/constants/regex.constant';
+import { mimeTypeToMediaType } from 'src/helpers/functions/common.utils';
 
 // import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 

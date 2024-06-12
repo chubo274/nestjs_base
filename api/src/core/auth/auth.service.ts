@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserRole } from 'src/constants/enum.constant';
+import { UserRole } from 'src/helpers/constants/enum.constant';
 import { compare, hash } from 'bcryptjs';
 import verifyAppleToken from 'verify-apple-id-token';
 import axios from 'axios';

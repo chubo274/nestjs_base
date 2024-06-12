@@ -3,12 +3,12 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { OtpAction, User } from '@prisma/client';
 import { I18nService } from 'nestjs-i18n';
-import { UserRole, UserStatus } from 'src/constants/enum.constant';
-import { BaseException, Errors } from 'src/constants/error.constant';
+import { UserRole, UserStatus } from 'src/helpers/constants/enum.constant';
+import { BaseException, Errors } from 'src/helpers/constants/error.constant';
 import { NodeMailerService } from 'src/core/node-mailer/node-mailer.service';
 import { OtpService } from 'src/models/otp/otp.service';
 import { UserService } from 'src/models/user/user.service';
-import { excludeObject, generateCustomAlphaBet } from 'src/utils/common.utils';
+import { excludeObject, generateCustomAlphaBet } from 'src/helpers/functions/common.utils';
 import { AuthService } from './auth.service';
 import { Roles } from './decorators/roles.decorator';
 import { User as UserDecorator } from './decorators/user.decorator';

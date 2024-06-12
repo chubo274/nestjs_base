@@ -2,7 +2,7 @@ import { Injectable, Logger, HttpStatus, HttpException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { isNil } from '@nestjs/common/utils/shared.utils';
 import { RedisClientOptions } from '@liaoliaots/nestjs-redis';
-import { COMMON_CONSTANT } from 'src/constants/common.constant';
+import { COMMON_CONSTANT } from 'src/helpers/constants/common.constant';
 
 @Injectable()
 export class BackendConfigService {

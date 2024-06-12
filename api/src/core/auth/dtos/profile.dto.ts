@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsEnum, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Max, NotContains } from 'class-validator';
 import moment from 'moment';
-import { Gender } from 'src/constants/enum.constant';
+import { Gender } from 'src/helpers/constants/enum.constant';
 
 export class UpdateProfileDto {
   @ApiProperty({

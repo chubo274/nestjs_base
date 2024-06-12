@@ -2,10 +2,10 @@ import { ConfigService } from '@nestjs/config';
 import moment from 'moment';
 import { customAlphabet } from 'nanoid';
 import path from 'path';
-import { COMMON_CONSTANT } from 'src/constants/common.constant';
-import { MediaType } from 'src/constants/enum.constant';
-import { RegexConstant } from 'src/constants/regex.constant';
-import { BackendConfigService } from 'src/services/backend-config.service';
+import { COMMON_CONSTANT } from 'src/helpers/constants/common.constant';
+import { MediaType } from 'src/helpers/constants/enum.constant';
+import { RegexConstant } from 'src/helpers/constants/regex.constant';
+import { BackendConfigService } from 'src/core/services/backend-config.service';
 import * as XLSX from 'xlsx';
 
 const configService = new BackendConfigService(new ConfigService());

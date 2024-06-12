@@ -2,7 +2,7 @@ import { Socket } from 'socket.io';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { WsException } from '@nestjs/websockets';
-import { BackendConfigService } from 'src/services/backend-config.service';
+import { BackendConfigService } from 'src/core/services/backend-config.service';
 
 
 @Injectable()

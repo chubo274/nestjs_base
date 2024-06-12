@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { BackendConfigService } from 'src/services/backend-config.service';
+import { BackendConfigService } from 'src/core/services/backend-config.service';
 
 @Injectable()
 export class NodeMailerService {

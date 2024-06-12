@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { UserRole } from '@prisma/client';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './core/auth/auth.service';
 
 @Injectable()
 export class AppService {

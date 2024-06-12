@@ -4,7 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import moment from 'moment';
 import slug from 'slug';
-import { RegexConstant } from 'src/constants/regex.constant';
+import { RegexConstant } from 'src/helpers/constants/regex.constant';
 import { UploadController } from './upload.controller';
 import { UploadService } from './upload.service';
 import fs from 'fs';

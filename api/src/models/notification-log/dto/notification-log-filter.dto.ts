@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Transform } from "class-transformer";
 import { IsBoolean, IsEnum, IsOptional } from "class-validator";
-import { FilterOptions } from "src/base/filterOption.dto";
-import { NotificationType } from "src/constants/enum.constant";
+import { FilterOptions } from "src/helpers/common/filterOption.dto";
+import { NotificationType } from "src/helpers/constants/enum.constant";
 
 export class NotificationLogsFilterDto extends FilterOptions {
     @ApiProperty({
