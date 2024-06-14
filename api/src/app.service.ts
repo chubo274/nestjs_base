@@ -53,31 +53,5 @@ export class AppService {
                 ],
             });
         }
-        const role = await this.prisma.role.findFirst({});
-        if (!role) {
-            await this.prisma.role.create({
-                data: {
-                    roleName: 'Super Admin',
-                    Permission: {
-                        create: {
-                            permissionName: 'Access all admin api',
-                            feature: '',
-                        },
-                    },
-                },
-            });
-            await this.prisma.role.create({
-                data: {
-                    roleName: 'Employee',
-                    Permission: {
-                        create: {
-                            permissionName: 'Employee access',
-                            feature:
-                                'GET /advertising-account,GET advertising-account/:id,POST advertising-account/:requestId,PATCH advertising-account/:id,DELETE advertising-account/:id',
-                        },
-                    },
-                },
-            });
-        }
     }
 }
