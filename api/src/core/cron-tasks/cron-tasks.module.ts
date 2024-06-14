@@ -1,7 +1,7 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
-import { CronTasksService } from './cron-tasks.service';
 import { PrismaModule } from 'prisma/prisma.module';
+import { CronTasksService } from './cron-tasks.service';
 
 @Module({
   imports: [PrismaModule],

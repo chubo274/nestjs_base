@@ -28,55 +28,26 @@ enum OtpAction {
 }
 
 model User {
-    id              Int        @id @default(autoincrement())
-    username        String?    @map("user_name") @db.VarChar(255)
-    password        String?
-    lastAccessToken String?
-    isVerifyOtp     Boolean    @default(false) @map("is_verify_otp")
-    lastName        String?    @map("last_name") @db.VarChar(255)
-    firstName       String?    @map("first_name") @db.VarChar(255)
-    phoneCode       String?    @map("phone_code") @db.VarChar(255)
-    phone           String?    @db.VarChar(255)
-    email           String?    @db.VarChar(255)
-    role            UserRole   @default(CUSTOMER)
-    status          UserStatus @default(ACTIVE)
-    cid             String?
-    depositAdsFee   Float      @default(0) @map("desposit_ads_fee")
-    avatar          String?    @db.VarChar(255)
-    createdAt       DateTime   @default(now()) @map("created_at")
-    updatedAt       DateTime   @default(now()) @updatedAt @map("updated_at")
+    id          Int           @id @default(autoincrement())
+    username    String?       @map("user_name") @db.VarChar(255)
+    password    String?
+    isVerifyOtp Boolean       @default(false) @map("is_verify_otp")
+    lastName    String?       @map("last_name") @db.VarChar(255)
+    firstName   String?       @map("first_name") @db.VarChar(255)
+    phoneCode   String?       @map("phone_code") @db.VarChar(255)
+    phone       String?       @db.VarChar(255)
+    email       String?       @db.VarChar(255)
+    role        UserRole      @default(CUSTOMER)
+    avatar      String?       @db.VarChar(255)
+    status      UserStatus    @default(ACTIVE)
+    createdAt   DateTime      @default(now()) @map("created_at")
+    updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at")
     // relation
-    Otp             Otp[]
-    Role            Role?      @relation(fields: [roleId], references: [id])
-    roleId          Int?
+    Otp         Otp[]
+    CustomerApp CustomerApp[]
 
     @@fulltext([username, email, phone, firstName, lastName])
     @@map("user")
-}
-
-model Role {
-    id         Int          @id @default(autoincrement())
-    roleName   String?      @map("role_name")
-    createdAt  DateTime     @default(now()) @map("created_at")
-    updatedAt  DateTime     @default(now()) @updatedAt @map("updated_at")
-    // relation fields
-    Permission Permission[]
-    User       User[]
-
-    @@map("role")
-}
-
-model Permission {
-    id             Int      @id @default(autoincrement())
-    permissionName String   @map("permission_name")
-    roleId         Int
-    role           Role     @relation(fields: [roleId], references: [id])
-    feature        String
-    createdAt      DateTime @default(now()) @map("created_at")
-    updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
-    // relation fields
-
-    @@map("permission")
 }
 
 model Otp {
@@ -108,3 +79,69 @@ model NotificationLogs {
 
     @@map("notification_logs")
 }
+
+model CustomerApp {
+    id          Int      @id @default(autoincrement())
+    userId      Int      @map("user_id")
+    appId       Int      @map("app_id")
+    description String
+    type        String // AppType
+    status      String // AppStatus
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+    // relation fields
+    user        User?    @relation(fields: [userId], references: [id])
+    App         App?     @relation(fields: [appId], references: [id])
+
+    @@map("customer_app")
+}
+
+model App {
+    id          Int           @id @default(autoincrement())
+    bundleId    String        @map("bundle_id")
+    name        String
+    description String?
+    createdAt   DateTime      @default(now()) @map("created_at")
+    updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at")
+    // relation fields
+    CustomerApp CustomerApp[]
+
+    @@map("app")
+}
+
+model Service {
+    id          Int      @id @default(autoincrement())
+    name        String
+    userId      Int      @map("user_id")
+    description String?
+    type        String // ServiceType
+    status      String // ServiceStatus
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+    @@map("service")
+}
+
+// model CustomerAppPermission {
+//     id              Int      @id @default(autoincrement())
+//     customerAppId   String   @map("customer_app_id")
+//     appPermissionId String   @map("app_permission_id")
+//     createdAt       DateTime @default(now()) @map("created_at")
+//     updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
+//     // relation fields
+//     CustomerApp        CustomerApp?    @relation(fields: [customerAppId], references: [id])
+//     AppPermission        AppPermission?    @relation(fields: [appPermissionId], references: [id])
+
+//     @@map("customer_app_permission")
+// }
+
+// model AppPermission {
+//     id             Int      @id @default(autoincrement())
+//     permissionName String   @map("permission_name")
+//     feature        String
+//     createdAt      DateTime @default(now()) @map("created_at")
+//     updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
+//     // relation fields
+
+//     @@map("app_permission")
+// }

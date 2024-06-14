@@ -285,13 +285,6 @@ export class UserController {
             };
         }
 
-        if (userFound.depositAdsFee !== body.depositAdsFee) {
-            updateDto = {
-                ...updateDto,
-                depositAdsFee: body.depositAdsFee,
-            };
-        }
-
         return this.userService.update(id, {
             ...updateDto,
             password: body.password ? await this.authService.hashPassword(body?.password) : undefined,

@@ -79,12 +79,6 @@ export class AuthController {
             user.email,
         )
 
-        // Save access token to db
-        await this.userService.update(user.id, {
-            lastAccessToken: accessToken,
-        });
-
-
         await this.nodeMailer.sendEmail(
             [user.email],
             `OTP Login`,
@@ -101,19 +95,6 @@ export class AuthController {
     async verifyOtpLogin(
         @Body() body: VerifyOtpDto
     ) {
-        const user = await this.userService.findOne({ where: { email: body.email, NOT: { status: UserStatus.DELETED } } })
-        if (!user) throw new BaseException(Errors.ITEM_NOT_FOUND('User'));
-        const otp = await this.otpService.verifyOtp(body.otpAction, body.otpCode, body.email)
-        if (otp) {
-            await this.userService.update(user.id, { lastAccessToken: null });
-
-            const _user = excludeObject(user, ['password']);
-
-            return {
-                accessToken: user?.lastAccessToken,
-                user: _user,
-            };
-        }
     }
 
     @Post('register')
