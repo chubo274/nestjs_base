@@ -30,11 +30,6 @@ export enum SocialConnectionType {
     APPLE = 'APPLE',
 }
 
-export enum UserRole {
-    CUSTOMER = "CUSTOMER",
-    ADMIN = "ADMIN"
-}
-
 export enum MediaType {
     IMAGE = "IMAGE",
     VIDEO = "VIDEO",

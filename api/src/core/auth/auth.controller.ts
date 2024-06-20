@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-import { OtpAction, User } from '@prisma/client';
+import { OtpAction, User, UserRole } from '@prisma/client';
 import { I18nService } from 'nestjs-i18n';
-import { UserRole, UserStatus } from 'src/helpers/constants/enum.constant';
+import { UserStatus } from 'src/helpers/constants/enum.constant';
 import { BaseException, Errors } from 'src/helpers/constants/error.constant';
 import { NodeMailerService } from 'src/core/node-mailer/node-mailer.service';
 import { UserService } from 'src/models/user/user.service';

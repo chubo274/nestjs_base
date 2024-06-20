@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import axios from 'axios';
 import { compare, hash } from 'bcryptjs';
-import { UserRole } from 'src/helpers/constants/enum.constant';
+import { UserRole } from '@prisma/client';
 import verifyAppleToken from 'verify-apple-id-token';
 import { PrismaService } from 'prisma/prisma.service';
 import { BackendConfigService } from '../services/backend-config.service';

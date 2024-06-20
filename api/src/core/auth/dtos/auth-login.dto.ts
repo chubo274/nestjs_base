@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserRole } from 'src/helpers/constants/enum.constant';
+import { UserRole } from '@prisma/client';
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, NotContains } from 'class-validator';
 import { LoginMethod, SocialConnectionType } from 'src/helpers/constants/enum.constant';
 // import { OtpAction } from 'src/constants/otp-action.constant';

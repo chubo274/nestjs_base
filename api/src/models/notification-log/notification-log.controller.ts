@@ -2,10 +2,7 @@ import {
     Controller, Delete, Get, Param, Patch, Query, UseGuards
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import {
-    Prisma,
-    UserRole
-} from '@prisma/client';
+import { Prisma, UserRole } from '@prisma/client';
 import { Roles } from 'src/core/auth/decorators/roles.decorator';
 import { User as UserDecorator } from 'src/core/auth/decorators/user.decorator';
 import { JwtAuthGuard } from 'src/core/auth/guards/jwt-auth.guard';
