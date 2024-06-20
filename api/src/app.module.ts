@@ -9,12 +9,12 @@ import { AppService } from './app.service';
 import { AuthModule } from './core/auth/auth.module';
 import { CommonModule } from './common.module';
 import { CoreModule } from './core/core.module';
-import { AllExceptionsFilter } from './helpers/http-exception.filter';
-import { IPMiddleware } from './helpers/ip.middleware';
-import { LoggerMiddleware } from './helpers/logger.middleware';
-import { TransformInterceptor } from './helpers/transform.interceptor';
+import { AllExceptionsFilter } from './core/interceptor/http-exception.filter';
+import { IPMiddleware } from './core/middleware/ip.middleware';
 import { I18nCustomModule } from './resources/i18n/i18n.module';
 import { BackendConfigService } from './core/services/backend-config.service';
+import { TransformInterceptor } from './core/interceptor/transform.interceptor';
+import { LoggerMiddleware } from './core/middleware/logger.middleware';
 
 
 @Module({

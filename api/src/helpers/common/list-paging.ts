@@ -1,3 +1,5 @@
+import { SortOrder } from 'src/helpers/constants/enum.constant';
+
 export interface IPropsPaging {
     where?: any;
     orderBy?: any;
@@ -28,7 +30,7 @@ export const funcListPaging = async (
     const offset = isNaN(page) ? 1 : page;
 
     allFilter = { where }; // filter default
-    if (orderBy) allFilter = { ...allFilter, orderBy };
+    if (orderBy) allFilter = { ...allFilter, orderBy: orderBy ? orderBy : { 'createdAt': SortOrder.DESC } };
     if (include) allFilter = { ...allFilter, include };
 
     if (perPage && page) {

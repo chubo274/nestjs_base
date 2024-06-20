@@ -13,7 +13,7 @@ import { RolesGuard } from 'src/core/auth/guards/roles.guard';
 import { IUserJwt } from 'src/core/auth/strategies/jwt.strategy';
 import { SortOrder } from 'src/helpers/constants/enum.constant';
 import { BaseException, Errors } from 'src/helpers/constants/error.constant';
-import { funcListPaging } from 'src/helpers/list-paging';
+import { funcListPaging } from 'src/helpers/common/list-paging';
 import { UserService } from '../user/user.service';
 import { NotificationLogsFilterDto } from './dto/notification-log-filter.dto';
 import { NotificationLogsService } from './notification-log.service';

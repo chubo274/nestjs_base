@@ -18,7 +18,7 @@ import { JwtAuthGuard } from 'src/core/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/core/auth/guards/roles.guard';
 import { SortOrder } from 'src/helpers/constants/enum.constant';
 import { BaseException, Errors } from 'src/helpers/constants/error.constant';
-import { funcListPaging } from 'src/helpers/list-paging';
+import { funcListPaging } from 'src/helpers/common/list-paging';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ListCustomerDto } from './dto/user-filter.dto';

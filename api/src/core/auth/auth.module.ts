@@ -4,7 +4,6 @@ import { PrismaModule } from 'prisma/prisma.module';
 
 import { NodeMailerModule } from 'src/core/node-mailer/node-mailer.module';
 import configurationCommon from 'src/helpers/common/configuration.common';
-import { OtpModule } from 'src/models/otp/otp.module';
 import { UserModule } from 'src/models/user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -19,7 +18,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       signOptions: { expiresIn: '30d' },
     }),
     PrismaModule,
-    OtpModule,
     NodeMailerModule,
     forwardRef(() => UserModule),
   ],

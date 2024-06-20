@@ -6,7 +6,6 @@ import { I18nService } from 'nestjs-i18n';
 import { UserRole, UserStatus } from 'src/helpers/constants/enum.constant';
 import { BaseException, Errors } from 'src/helpers/constants/error.constant';
 import { NodeMailerService } from 'src/core/node-mailer/node-mailer.service';
-import { OtpService } from 'src/models/otp/otp.service';
 import { UserService } from 'src/models/user/user.service';
 import { excludeObject, generateCustomAlphaBet } from 'src/helpers/functions/common.utils';
 import { AuthService } from './auth.service';
@@ -33,7 +32,6 @@ export class AuthController {
         private readonly i18n: I18nService,
         private readonly authService: AuthService,
         private readonly userService: UserService,
-        private readonly otpService: OtpService,
         private readonly nodeMailer: NodeMailerService,
     ) { }
     @Post('login')
@@ -74,16 +72,16 @@ export class AuthController {
 
         let accessToken = await this.authService.generateAccessToken(payload);
 
-        const otp = await this.otpService.createOtp(
-            OtpAction.LOGIN,
-            user.email,
-        )
+        // const otp = await this.otpService.createOtp(
+        //     OtpAction.LOGIN,
+        //     user.email,
+        // )
 
-        await this.nodeMailer.sendEmail(
-            [user.email],
-            `OTP Login`,
-            `Your OTP to login is ${otp?.code}`
-        );
+        // await this.nodeMailer.sendEmail(
+        //     [user.email],
+        //     `OTP Login`,
+        //     `Your OTP to login is ${otp?.code}`
+        // );
 
         return {
             message: "Send Email Success",
@@ -177,18 +175,18 @@ export class AuthController {
         return { message: "Send Email Success" }
     }
 
-    @Post("verify-otp")
-    async verifyOtp(
-        @Body() body: VerifyOtpDto
-    ) {
-        const user = await this.userService.findOne({ where: { email: body.email, NOT: { status: UserStatus.DELETED } } })
-        if (!user) throw new BaseException(Errors.ITEM_NOT_FOUND('User'));
-        const otp = await this.otpService.verifyOtp(body.otpAction, body.otpCode, body.email)
-        if (!otp) throw new BaseException(Errors.BAD_REQUEST("Otp not found"))
-        await this.userService.update(user.id, { isVerifyOtp: true })
-        return { message: 'Verify Otp Successful' };
+    // @Post("verify-otp")
+    // async verifyOtp(
+    //     @Body() body: VerifyOtpDto
+    // ) {
+    //     const user = await this.userService.findOne({ where: { email: body.email, NOT: { status: UserStatus.DELETED } } })
+    //     if (!user) throw new BaseException(Errors.ITEM_NOT_FOUND('User'));
+    //     const otp = await this.otpService.verifyOtp(body.otpAction, body.otpCode, body.email)
+    //     if (!otp) throw new BaseException(Errors.BAD_REQUEST("Otp not found"))
+    //     await this.userService.update(user.id, { isVerifyOtp: true })
+    //     return { message: 'Verify Otp Successful' };
 
-    }
+    // }
 
     @Post('change-password-otp')
     async changePassword(@Body() body: ChangePassword) {
