@@ -28,13 +28,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(req: Request, payload: IJwtPayload): Promise<IUserJwt> {
-    let user: any;
+    const user = await this.userService.findOne({ where: { id: payload.sub } })
     // const accessToken = req.headers['authorization'].replace('Bearer ', '');
 
     // if (accessToken !== user?.lastAccessToken) {
     //   throw new HttpException('Invalid Access Token', HttpStatus.UNAUTHORIZED);
     // }  
-    user = await this.userService.findOne({ where: { id: payload.sub } })
     if (!user) throw new BaseException(Errors.ITEM_NOT_FOUND('Account'));
 
     if (user.status === UserStatus.BANNED) {
