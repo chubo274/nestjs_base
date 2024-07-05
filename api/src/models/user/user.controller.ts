@@ -19,7 +19,7 @@ import { RolesGuard } from 'src/core/auth/guards/roles.guard';
 import { SortOrder } from 'src/helpers/constants/enum.constant';
 import { BaseException, Errors } from 'src/helpers/constants/error.constant';
 import { funcListPaging } from 'src/helpers/common/list-paging';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, CreateUserDtoKeys } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ListCustomerDto } from './dto/user-filter.dto';
 import { UserService } from './user.service';
@@ -170,6 +170,8 @@ export class UserController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Post()
     async create(@Body() body: CreateUserDto) {
+        const keyNotInDto = Object.keys(body).find((key: keyof CreateUserDto) => !CreateUserDtoKeys.includes(key))
+        if (keyNotInDto) throw new BaseException(Errors.BAD_REQUEST(`${keyNotInDto} is not defined in parameters`));
         let user: User;
         user = await this.userService.findOne({
             where: { email: body.email, status: { not: UserStatus.DELETED } },
