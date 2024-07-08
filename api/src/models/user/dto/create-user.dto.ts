@@ -101,5 +101,32 @@ export class CreateUserDto {
     // })
     // @IsArray()
     // readonly listString?: number[];
+
+    // @ApiProperty({
+    //     example: [OrderProductDto],
+    //     required: true,
+    // })
+    // @IsNotEmpty()
+    // @ValidateNested({ each: true })
+    // @Type(() => OrderProductDto)
+    // @IsArray()
+    // orderProduct: OrderProductDto[];
+
+    // @ApiProperty({
+    //     example: Prescription,
+    //     required: false,
+    // })
+    // @IsOptional()
+    // @ValidateNested()
+    // @Type(() => Prescription)
+    // @IsObject()
+    // readonly prescription?: Prescription;
+
+    // @ApiProperty({
+    //     required: false,
+    // })
+    // @IsOptional()
+    // @IsEnum({each:true})
+    // readonly type?: Type[];
 }
 
