@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { BaseException, Errors } from 'src/constants/error.constant';
+import { BaseException, Errors } from 'src/helpers/constants/error.constant';
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
