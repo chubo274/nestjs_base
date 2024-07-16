@@ -8,9 +8,11 @@ import { UserService } from 'src/models/user/user.service';
 import { BackendConfigService } from 'src/core/services/backend-config.service';
 import { _excludeObject } from 'src/helpers/functions/common.utils';
 import { IJwtPayload } from '../interfaces/jwt-payload.interface';
+import { EnumPermisison } from '../decorators/permissions.decorator';
 export interface IUserJwt {
   data: User;
   role: UserRole;
+  permission: EnumPermisison[];
 }
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -41,6 +43,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     const userExcludePassword = _excludeObject(user, ['password']);
-    return { data: userExcludePassword, role: payload.role };
+    return {
+      data: userExcludePassword,
+      role: payload.role,
+      permission: payload?.permission ?? [],
+    };
   }
 }
