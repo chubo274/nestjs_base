@@ -30,7 +30,12 @@ export const funcListPaging = async (
     const offset = isNaN(page) ? 1 : page;
 
     allFilter = { where }; // filter default
-    allFilter = { ...allFilter, orderBy: orderBy ? orderBy : { 'createdAt': SortOrder.DESC } };
+
+    if ('undefined' in orderBy || 'null' in orderBy) {
+        _orderBy = { 'createdAt': SortOrder.DESC }
+    }
+    
+    if (orderBy) allFilter = { ...allFilter, orderBy: _orderBy };
     if (include) allFilter = { ...allFilter, include };
 
     if (perPage && page) {
