@@ -31,7 +31,7 @@ export const funcListPaging = async (
 
     allFilter = { where }; // filter default
 
-    if ('undefined' in orderBy || 'null' in orderBy) {
+    if (!orderBy || 'undefined' in orderBy || 'null' in orderBy) {
         _orderBy = { 'createdAt': SortOrder.DESC }
     }
     
