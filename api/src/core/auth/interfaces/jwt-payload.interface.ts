@@ -1,17 +1,13 @@
-import { Platform } from 'src/helpers/constants/enum.constant';
 import { UserRole } from '@prisma/client';
-import { EnumPermisison } from '../decorators/permissions.decorator';
 
-export class IJwtPayload {
-    sub: number;
+export interface IJwtPayload {
+    sub: string;  // this is id of user
 
     iat?: number;
 
     exp?: number;
 
+    username?: string;
+
     role?: UserRole;
-
-    permission?: EnumPermisison[];
-
-    platform?: Platform;
 }

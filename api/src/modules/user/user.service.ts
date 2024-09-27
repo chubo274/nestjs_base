@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
+
+export interface IUser extends User {
+}
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(
+    private readonly prismaService: PrismaService,
+  ) { }
 
   async create(args: Prisma.UserCreateArgs) {
     return this.prismaService.user.create(args);
@@ -14,11 +19,11 @@ export class UserService {
     return this.prismaService.user.count(args);
   }
 
-  async findAll(args: Prisma.UserFindManyArgs) {
+  async findAll(args: Prisma.UserFindManyArgs): Promise<IUser[]> {
     return this.prismaService.user.findMany(args);
   }
 
-  async findOne(args: Prisma.UserFindFirstArgs) {
+  async findOne(args: Prisma.UserFindFirstArgs): Promise<IUser> {
     return this.prismaService.user.findFirst(args);
   }
 
@@ -29,7 +34,9 @@ export class UserService {
   async remove(args: Prisma.UserDeleteArgs) {
     return this.prismaService.user.delete(args);
   }
+
   async createMany(args: Prisma.UserCreateManyArgs) {
     return this.prismaService.user.createMany(args);
   }
+
 }

@@ -22,17 +22,10 @@ export function getDateFromNowByMonth(month = 0) {
   return now;
 }
 
-export function excludeObject<User, Key extends keyof User>(
-  user: User,
+export function _excludeObject<T, Key extends keyof T>(
+  user: T,
   keys: Key[],
-): Omit<User, Key> {
-  for (const key of keys) {
-    delete user[key];
-  }
-  return user;
-}
-
-export function _excludeObject(user: any, keys) {
+): Omit<T, Key> {
   for (const key of keys) {
     delete user[key];
   }

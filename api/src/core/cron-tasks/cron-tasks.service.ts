@@ -6,8 +6,4 @@ export class CronTasksService {
     constructor(
         private primsa: PrismaService,
     ) { }
-
-    async updateNotification() {
-        await this.primsa.notificationLogs.updateMany({ where: {}, data: { isRead: false } });
-    }
 }

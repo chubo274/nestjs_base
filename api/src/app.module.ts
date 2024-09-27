@@ -6,15 +6,16 @@ import path from 'path';
 import { PrismaModule } from 'prisma/prisma.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './core/auth/auth.module';
 import { CommonModule } from './common.module';
+import { AuthModule } from './core/auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { AllExceptionsFilter } from './core/interceptor/http-exception.filter';
+import { PrismaInterceptor } from './core/interceptor/prisma.interceptor';
 import { IPMiddleware } from './core/middleware/ip.middleware';
-import { I18nCustomModule } from './resources/i18n/i18n.module';
-import { BackendConfigService } from './core/services/backend-config.service';
-import { TransformInterceptor } from './core/interceptor/transform.interceptor';
 import { LoggerMiddleware } from './core/middleware/logger.middleware';
+import { BackendConfigService } from './core/services/backend-config.service';
+import { I18nCustomModule } from './resources/i18n/i18n.module';
+import { UserModule } from './modules/user/user.module';
 
 
 @Module({
@@ -39,6 +40,7 @@ import { LoggerMiddleware } from './core/middleware/logger.middleware';
             ],
             inject: [BackendConfigService],
         }),
+        UserModule,
     ],
     controllers: [AppController],
     providers: [
@@ -49,10 +51,11 @@ import { LoggerMiddleware } from './core/middleware/logger.middleware';
         },
         {
             provide: APP_INTERCEPTOR,
-            useClass: TransformInterceptor,
+            useClass: PrismaInterceptor,
         },
     ],
 })
+
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer): void {
         consumer.apply(IPMiddleware).forRoutes('*');

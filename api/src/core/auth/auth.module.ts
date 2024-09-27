@@ -1,15 +1,13 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from 'prisma/prisma.module';
-
-import { NodeMailerModule } from 'src/core/node-mailer/node-mailer.module';
 import configurationCommon from 'src/helpers/common/configuration.common';
-import { UserModule } from 'src/models/user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { UserService } from 'src/modules/user/user.service';
 
 @Module({
   imports: [
@@ -18,11 +16,10 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       signOptions: { expiresIn: '30d' },
     }),
     PrismaModule,
-    NodeMailerModule,
-    forwardRef(() => UserModule),
   ],
   controllers: [AuthController],
-  providers: [AuthService, RolesGuard, JwtAuthGuard, JwtStrategy],
+  providers: [AuthService, RolesGuard, JwtAuthGuard, JwtStrategy, UserService],
   exports: [AuthService],
 })
+
 export class AuthModule { }

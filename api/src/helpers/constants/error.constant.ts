@@ -26,16 +26,17 @@ type keyErrors =
   | 'TERMS_AND_CONDITIONALS_ACCEPTED'
   | 'PAYMENT_ERROR'
   | 'FORBIDDEN_VERIFIED'
+  | 'UNAUTHORIZED'
 
 type IErrors = {
   [key in keyErrors]: (data?: any) => BaseErrorFormat;
 };
 
 export const Errors: IErrors = {
-  DEFAULT: () => ({
+  DEFAULT: (data?: string) => ({
     errCode: HttpStatus.INTERNAL_SERVER_ERROR.toString(),
     statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-    message: "Something went wrong",
+    message: data || "Something went wrong",
   }),
   ITEM_NOT_FOUND: (data: string) => ({
     errCode: HttpStatus.BAD_REQUEST.toString(),
@@ -80,14 +81,21 @@ export const Errors: IErrors = {
     message: 'Terms and conditionals are not agreed',
   }),
 
-  FORBIDDEN: () => ({
+  FORBIDDEN: (message?: string) => ({
     errCode: HttpStatus.FORBIDDEN.toString(),
     statusCode: HttpStatus.FORBIDDEN,
-    message: 'Forbidden resource',
+    message: message || 'Forbidden resource',
   }),
+
   FORBIDDEN_VERIFIED: () => ({
     errCode: HttpStatus.FORBIDDEN.toString(),
     statusCode: HttpStatus.FORBIDDEN,
     message: 'Your account is not verified.',
+  }),
+
+  UNAUTHORIZED: (message?: string) => ({
+    errCode: HttpStatus.UNAUTHORIZED.toString(),
+    statusCode: HttpStatus.UNAUTHORIZED,
+    message: message ?? 'Invalid Access Token.',
   }),
 };

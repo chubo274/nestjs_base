@@ -2,17 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { User, UserRole } from '@prisma/client';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UserStatus } from 'src/helpers/constants/enum.constant';
-import { BaseException, Errors } from 'src/helpers/constants/error.constant';
-import { UserService } from 'src/models/user/user.service';
 import { BackendConfigService } from 'src/core/services/backend-config.service';
-import { _excludeObject } from 'src/helpers/functions/common.utils';
+import { UserStatus } from 'src/helpers/constants/enum.constant';
+import { UserService } from 'src/modules/user/user.service';
 import { IJwtPayload } from '../interfaces/jwt-payload.interface';
-import { EnumPermisison } from '../decorators/permissions.decorator';
 export interface IUserJwt {
-  data: User;
+  data: Omit<User, "password">;
   role: UserRole;
-  permission: EnumPermisison[];
 }
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -30,23 +26,21 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(req: Request, payload: IJwtPayload): Promise<IUserJwt> {
-    const user = await this.userService.findOne({ where: { id: payload.sub } })
-    // const accessToken = req.headers['authorization'].replace('Bearer ', '');
+    const accessToken = req.headers['authorization'].replace('Bearer ', '');
 
-    // if (accessToken !== user?.lastAccessToken) {
-    //   throw new HttpException('Invalid Access Token', HttpStatus.UNAUTHORIZED);
-    // }  
-    if (!user) throw new BaseException(Errors.ITEM_NOT_FOUND('Account'));
+    const user = await this.userService.findOne({ where: { username: payload.username } });
+    if (!user) throw new HttpException('Cant detected user', HttpStatus.UNAUTHORIZED);
 
     if (user.status === UserStatus.BANNED) {
       throw new HttpException('User has been locked', HttpStatus.UNAUTHORIZED);
     }
 
-    const userExcludePassword = _excludeObject(user, ['password']);
-    return {
-      data: userExcludePassword,
-      role: payload.role,
-      permission: payload?.permission ?? [],
-    };
+    if (accessToken !== user?.lastAccessToken) {
+      throw new HttpException('Invalid Access Token', HttpStatus.UNAUTHORIZED);
+    }
+
+    delete user['password'];
+    const userExcludePassword = user;
+    return { data: userExcludePassword, role: payload.role };
   }
 }

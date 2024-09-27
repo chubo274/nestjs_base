@@ -1,14 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-
 import {
-    IsEnum,
-    IsNotEmpty,
-    IsNumber,
+    IsEnum, IsNumber,
     IsOptional,
     IsString
 } from 'class-validator';
-import { MediaType, SortOrder } from '../constants/enum.constant';
+import { SortOrder } from 'src/helpers/constants/enum.constant';
 
 export class FilterOptions {
     @ApiProperty({
@@ -38,7 +35,7 @@ export class FilterOptions {
     sortField?: string;
 
     @ApiProperty({
-        example: 'asc',
+        example: 'desc',
         required: false,
     })
     @IsEnum(SortOrder)
@@ -60,27 +57,3 @@ export class FilterOptions {
     @IsString()
     textSearch?: string;
 }
-
-export class MediaDto {
-    @ApiProperty({
-        required: true,
-    })
-    @IsNotEmpty()
-    @IsString()
-    readonly url: string;
-
-    @ApiProperty({
-        required: false,
-    })
-    @IsOptional()
-    @IsString()
-    readonly content?: string;
-
-    @ApiProperty({
-        required: false,
-    })
-    @IsOptional()
-    @IsString()
-    readonly fileType?: MediaType;
-}
-

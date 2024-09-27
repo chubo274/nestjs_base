@@ -2,146 +2,78 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 enum UserStatus {
-    ACTIVE
-    DELETED
-    BANNED
+  ACTIVE
+  DELETED
+  BANNED
 }
 
 enum UserRole {
-    ADMIN
-    CUSTOMER
-    EMPLOYEE
-}
-
-enum OtpAction {
-    LOGIN
+  ADMIN
+  MANAGER
+  STAFF
 }
 
 model User {
-    id          Int           @id @default(autoincrement())
-    username    String?       @map("user_name") @db.VarChar(255)
-    password    String?
-    isVerifyOtp Boolean       @default(false) @map("is_verify_otp")
-    lastName    String?       @map("last_name") @db.VarChar(255)
-    firstName   String?       @map("first_name") @db.VarChar(255)
-    phoneCode   String?       @map("phone_code") @db.VarChar(255)
-    phone       String?       @db.VarChar(255)
-    email       String?       @db.VarChar(255)
-    role        UserRole      @default(CUSTOMER)
-    avatar      String?       @db.VarChar(255)
-    status      UserStatus    @default(ACTIVE)
-    createdAt   DateTime      @default(now()) @map("created_at")
-    updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at")
-    // relation
-    Otp         Otp[]
-    CustomerApp CustomerApp[]
+  id                   Int                    @id @default(autoincrement())
+  username             String                 @unique @db.VarChar(255)
+  phone                String                 @unique @db.VarChar(255)
+  email                String                 @unique @db.VarChar(255)
+  name                 String                 @db.VarChar(255)
+  password             String?
+  lastAccessToken      String?                @db.Text
+  fcmToken             String?                @db.Text
+  nickName             String?                @db.VarChar(255)
+  avatar               String?                @db.VarChar(255)
+  role                 UserRole               @default(STAFF)
+  status               UserStatus             @default(ACTIVE)
+  createdAt            DateTime               @default(now()) @map("created_at")
+  updatedAt            DateTime               @default(now()) @updatedAt @map("updated_at")
+  // relation
+  NotificationLogsWith NotificationLogsWith[]
+  NotificationLogs     NotificationLogs[]
 
-    @@fulltext([username, email, phone, firstName, lastName])
-    @@map("user")
-}
-
-model Otp {
-    id        Int       @id @default(autoincrement())
-    action    OtpAction
-    userId    Int?      @map("user_id")
-    phone     String?
-    phoneCode String?   @map("phone_code")
-    email     String?   @map("email")
-    code      String
-    isUsed    Int       @default(0) @map("is_used")
-    expiredAt DateTime  @map("expired_at")
-    createdAt DateTime  @default(now()) @map("created_at")
-    updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
-
-    // relation fields
-    user User? @relation(fields: [userId], references: [id])
-
-    @@map("otp")
+  @@fulltext([username, email, phone, name, nickName])
+  @@map("user")
 }
 
 model NotificationLogs {
-    id        Int      @id @default(autoincrement())
-    title     String
-    type      String
-    isRead    Boolean  @default(false) @map("is_read")
-    createdAt DateTime @default(now()) @map("created_at")
-    updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  id                   Int                    @id @default(autoincrement())
+  title                String                 @db.VarChar(1000) // notification.title in noti firebase
+  subTitle             String?                @db.VarChar(1000)
+  imageUrl             String?                @db.VarChar(1000) // notification.imageUrl in noti firebase
+  body                 String?                @db.Text // notification.body in noti firebase
+  data                 String? // data in noti firebase
+  userCreatedId        Int
+  type                 String                 @default("DEFAULT") // NotiType
+  createdAt            DateTime               @default(now()) @map("created_at")
+  updatedAt            DateTime               @default(now()) @updatedAt @map("updated_at")
+  // relation fields
+  NotificationLogsWith NotificationLogsWith[]
+  UserCreated          User                   @relation(fields: [userCreatedId], references: [id], onDelete: Cascade)
 
-    @@map("notification_logs")
+  @@map("notification_logs")
 }
 
-model CustomerApp {
-    id          Int      @id @default(autoincrement())
-    userId      Int      @map("user_id")
-    appId       Int      @map("app_id")
-    description String
-    type        String // AppType
-    status      String // AppStatus
-    createdAt   DateTime @default(now()) @map("created_at")
-    updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
-    // relation fields
-    user        User?    @relation(fields: [userId], references: [id])
-    App         App?     @relation(fields: [appId], references: [id])
+model NotificationLogsWith {
+  id               Int              @id @default(autoincrement())
+  notificationId   Int
+  userReceiveId    Int // userId is user. That is user has accessed app or just specific user
+  isRead           Boolean          @default(false)
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @default(now()) @updatedAt @map("updated_at")
+  // relation fields
+  NotificationLogs NotificationLogs @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  UserReceive      User             @relation(fields: [userReceiveId], references: [id], onDelete: Cascade)
 
-    @@map("customer_app")
+  @@map("notification_logs_with")
 }
-
-model App {
-    id          Int           @id @default(autoincrement())
-    bundleId    String        @map("bundle_id")
-    name        String
-    description String?
-    createdAt   DateTime      @default(now()) @map("created_at")
-    updatedAt   DateTime      @default(now()) @updatedAt @map("updated_at")
-    // relation fields
-    CustomerApp CustomerApp[]
-
-    @@map("app")
-}
-
-model Service {
-    id          Int      @id @default(autoincrement())
-    name        String
-    userId      Int      @map("user_id")
-    description String?
-    type        String // ServiceType
-    status      String // ServiceStatus
-    createdAt   DateTime @default(now()) @map("created_at")
-    updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
-
-    @@map("service")
-}
-
-// model CustomerAppPermission {
-//     id              Int      @id @default(autoincrement())
-//     customerAppId   String   @map("customer_app_id")
-//     appPermissionId String   @map("app_permission_id")
-//     createdAt       DateTime @default(now()) @map("created_at")
-//     updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
-//     // relation fields
-//     CustomerApp        CustomerApp?    @relation(fields: [customerAppId], references: [id])
-//     AppPermission        AppPermission?    @relation(fields: [appPermissionId], references: [id])
-
-//     @@map("customer_app_permission")
-// }
-
-// model AppPermission {
-//     id             Int      @id @default(autoincrement())
-//     permissionName String   @map("permission_name")
-//     feature        String
-//     createdAt      DateTime @default(now()) @map("created_at")
-//     updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
-//     // relation fields
-
-//     @@map("app_permission")
-// }
