@@ -22,6 +22,8 @@ import { CreateUserDto, CreateUserDtoKeys } from './dto/create-user.dto';
 import { UpdateUserBannedDto, UpdateUserDto, UpdateUserDtoKeys } from './dto/update-user.dto';
 import { ListCustomerDto } from './dto/user-filter.dto';
 import { UserService } from './user.service';
+import { RegexConstant } from 'src/helpers/constants/regex.constant';
+import { AuthService } from 'src/core/auth/auth.service';
 
 @ApiTags('User')
 @Controller('user')
@@ -29,7 +31,7 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly csvService: CsvService,
+    private readonly authService: AuthService,
   ) { }
 
   @ApiBearerAuth()
@@ -112,7 +114,11 @@ export class UserController {
     const keyNotInDto = Object.keys(body).find((key: keyof CreateUserDto) => !CreateUserDtoKeys.includes(key))
     if (keyNotInDto) throw new BaseException(Errors.BAD_REQUEST(`${keyNotInDto} is not defined in parameters`));
 
-    const data = await this.userService.create({ data: body })
+    if (!RegexConstant.PasswordReg.test(body.password))
+      throw new BaseException(Errors.BAD_REQUEST(`Password need Minimum eight characters, at least one letter, one number and one special character`));
+    const hashPassword = await this.authService.hashPassword(body.password)
+
+    const data = await this.userService.create({ data: { ...body, password: hashPassword } })
     _excludeObject(data, ['password', 'lastAccessToken'])
     return data
   }

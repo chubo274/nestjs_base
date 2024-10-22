@@ -16,6 +16,7 @@ import { UserSignupDto, UserSignupDtoKeys } from './dtos/user-signup.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { IUserJwt } from './strategies/jwt.strategy';
+import { RegexConstant } from 'src/helpers/constants/regex.constant';
 
 export interface LoginData {
   phone?: string;
@@ -54,9 +55,14 @@ export class AuthController {
     const keyNotInDto = Object.keys(body).find((key: keyof UserSignupDto) => !UserSignupDtoKeys.includes(key))
     if (keyNotInDto) throw new BaseException(Errors.BAD_REQUEST(`${keyNotInDto} is not defined in parameters`));
 
+    if (!RegexConstant.PasswordReg.test(body.password))
+      throw new BaseException(Errors.BAD_REQUEST(`Password need Minimum eight characters, at least one letter, one number and one special character`));
+    const hashPassword = await this.authService.hashPassword(body.password)
+
     const data = await this.userService.create({
       data: {
         ...body,
+        password: hashPassword,
         role: UserRole.STAFF, // or use default
         status: UserStatus.ACTIVE, // or use default
       }

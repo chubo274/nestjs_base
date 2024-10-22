@@ -101,11 +101,11 @@ export function parseQueryString(queryString: string): Record<string, string> {
 
 export function mimeTypeToMediaType(mimeType: string) {
   console.log(mimeType)
-  if (mimeType.match(RegexConstant.ImageReg))
+  if (RegexConstant.ImageReg.test(mimeType))
     return MediaType.IMAGE
-  if (mimeType.match(RegexConstant.VideoReg))
+  if (RegexConstant.VideoReg.test(mimeType))
     return MediaType.VIDEO
-  if (mimeType.match(RegexConstant.PdfReg))
+  if (RegexConstant.PdfReg.test(mimeType))
     return MediaType.PDF
 }
 
