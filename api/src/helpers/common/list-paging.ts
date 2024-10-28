@@ -22,9 +22,6 @@ export const funcListPaging = async (
 ): Promise<IFuncPaging> => {
   const { include, where, orderBy } = options;
   // setup filter
-  let items: Array<any>;
-  let totalItems: number;
-  let totalPage: number;
   let allFilter;
   let _orderBy = orderBy
   const limit = isNaN(perPage) ? 10 : perPage;
@@ -46,9 +43,9 @@ export const funcListPaging = async (
   }
 
   // query
-  items = await service.findAll(allFilter);
-  totalItems = await service.count({ where: where });
-  totalPage = Math.floor((totalItems + (limit - 1)) / limit) ?? 1;
+  const items: Array<any> = await service.findAll(allFilter);
+  const totalItems: number = await service.count({ where: where });
+  const totalPage: number = Math.floor((totalItems + (limit - 1)) / limit) ?? 1;
   return {
     items,
     totalItems,

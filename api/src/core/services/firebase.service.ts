@@ -24,7 +24,7 @@ export class FirebaseService {
       await FirebaseAdmin.messaging().subscribeToTopic(_tokens, topic)
       return true
     } catch (error) {
-      console.log('Error subscribeToTopic:', error);
+      console.error('Error subscribeToTopic:', error);
       return false
     }
   }
@@ -35,7 +35,7 @@ export class FirebaseService {
       await FirebaseAdmin.messaging().unsubscribeFromTopic(_tokens, topic)
       return true
     } catch (error) {
-      console.log('Error unsubscribeFromTopic:', error);
+      console.error('Error unsubscribeFromTopic:', error);
       return false
     }
   }
@@ -48,7 +48,7 @@ export class FirebaseService {
       await this.unsubscribeFromTopic(tokens, topic)
       return true
     } catch (error) {
-      console.log('send topic error: ', error);
+      console.error('send topic error: ', error);
       return false
     }
   }
@@ -58,7 +58,7 @@ export class FirebaseService {
       // await FirebaseAdmin.messaging().deleteInstanceId(fcmToken);
       return true
     } catch (error) {
-      console.log('firebase delete instance error: ', error);
+      console.error('firebase delete instance error: ', error);
       return false
     }
   }

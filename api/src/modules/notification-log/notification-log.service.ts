@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { MessagingPayload, TokenMessage } from 'firebase-admin/lib/messaging/messaging-api';
-import moment from 'moment';
+import { TokenMessage } from 'firebase-admin/lib/messaging/messaging-api';
 import { PrismaService } from 'prisma/prisma.service';
 import { IUserJwt } from 'src/core/auth/strategies/jwt.strategy';
 import { FirebaseService } from 'src/core/services/firebase.service';

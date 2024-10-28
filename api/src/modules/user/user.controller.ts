@@ -9,21 +9,20 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Prisma, User, UserRole, UserStatus } from '@prisma/client';
+import { AuthService } from 'src/core/auth/auth.service';
 import { Roles } from 'src/core/auth/decorators/roles.decorator';
 import { UserDecorator } from 'src/core/auth/decorators/user.decorator';
 import { JwtAuthGuard } from 'src/core/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/core/auth/guards/roles.guard';
 import { IUserJwt } from 'src/core/auth/strategies/jwt.strategy';
-import { CsvService } from 'src/core/services/csv.service';
 import { funcListPaging } from 'src/helpers/common/list-paging';
 import { BaseException, Errors } from 'src/helpers/constants/error.constant';
+import { RegexConstant } from 'src/helpers/constants/regex.constant';
 import { _excludeObject } from 'src/helpers/functions/common.utils';
 import { CreateUserDto, CreateUserDtoKeys } from './dto/create-user.dto';
 import { UpdateUserBannedDto, UpdateUserDto, UpdateUserDtoKeys } from './dto/update-user.dto';
 import { ListCustomerDto } from './dto/user-filter.dto';
 import { UserService } from './user.service';
-import { RegexConstant } from 'src/helpers/constants/regex.constant';
-import { AuthService } from 'src/core/auth/auth.service';
 
 @ApiTags('User')
 @Controller('user')
@@ -39,7 +38,6 @@ export class UserController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   async findAll(@UserDecorator() user: IUserJwt, @Query() options: ListCustomerDto) {
-    let whereInput: Prisma.UserFindManyArgs;
     let where: Prisma.UserWhereInput = {};
     where.AND = [];
 
@@ -71,7 +69,7 @@ export class UserController {
       };
     }
 
-    whereInput = {
+    const whereInput: Prisma.UserFindManyArgs = {
       where,
       orderBy: {
         [options?.sortField]: options?.sortOrder,
@@ -145,8 +143,6 @@ export class UserController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   async update(@UserDecorator() user: IUserJwt, @Param('id') id: number, @Body() body: UpdateUserDto) {
-    console.log('1');
-
     const keyNotInDto = Object.keys(body).find((key: keyof UpdateUserDto) => !UpdateUserDtoKeys.includes(key))
     if (keyNotInDto) throw new BaseException(Errors.BAD_REQUEST(`${keyNotInDto} is not defined in parameters`));
 
@@ -159,7 +155,7 @@ export class UserController {
 
     const userFound = await this.userService.findOne({ where: { id: _id, status: { notIn: [UserStatus.DELETED] } } });
     if (!userFound) throw new BaseException(Errors.BAD_REQUEST('User not found or deleted'));
-    let updateDto = body;
+    const updateDto = body;
     const data = await this.userService.update(id, {
       ...updateDto,
     });

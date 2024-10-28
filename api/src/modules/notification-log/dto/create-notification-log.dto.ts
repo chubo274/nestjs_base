@@ -11,7 +11,7 @@ export class SendNotiDto {
   })
   @IsNotEmpty()
   @IsString()
-  title: string;
+    title: string;
 
   @ApiProperty({
     example: 'Notification Subtitle',
@@ -20,7 +20,7 @@ export class SendNotiDto {
   })
   @IsOptional()
   @IsString()
-  subTitle?: string;
+    subTitle?: string;
 
   @ApiProperty({
     example: 'https://example.com/image.png',
@@ -29,7 +29,7 @@ export class SendNotiDto {
   })
   @IsOptional()
   @IsString()
-  imageUrl?: string;
+    imageUrl?: string;
 
   @ApiProperty({
     example: 'This is the body of the notification.',
@@ -38,7 +38,7 @@ export class SendNotiDto {
   })
   @IsOptional()
   @IsString()
-  body?: string;
+    body?: string;
 
   @ApiProperty({
     example: '{"key":"value"}',
@@ -47,7 +47,7 @@ export class SendNotiDto {
   })
   @IsOptional()
   @IsString()
-  data?: string;
+    data?: string;
 
   // notification with
   // api just use topicId or userIReceived,s not both. Logic create will do on BE
@@ -58,7 +58,7 @@ export class SendNotiDto {
   })
   @IsOptional()
   @IsString()
-  topicId?: string;
+    topicId?: string;
 
   @ApiProperty({
     example: '123',
@@ -71,7 +71,7 @@ export class SendNotiDto {
     return value?.split(',').map((el) => Number(el.trim()))
   })
   @IsArray()
-  userReceiveIds?: number[];
+    userReceiveIds?: number[];
 }
 
 export class CreateNotificationLogsDto extends SendNotiDto {

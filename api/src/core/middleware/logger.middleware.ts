@@ -1,6 +1,6 @@
 'use strict';
-import { Request, Response, NextFunction } from 'express';
-import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
+import { NextFunction, Request, Response } from 'express';
 import moment from 'moment';
 
 @Injectable()
@@ -13,22 +13,20 @@ export class LoggerMiddleware implements NestMiddleware {
       const startAt = process.hrtime();
       const userAgent = request.get('user-agent') || '';
       this.logger.log(
-        `${now.valueOf()} start ${method} ${originalUrl} - ${userAgent} ${ip} - Token: ${
-          request.headers.authorization || null
+        `${now.valueOf()} start ${method} ${originalUrl} - ${userAgent} ${ip} - Token: ${request.headers.authorization || null
         } - Request body: ${JSON.stringify(request.body || {})}`,
       );
       response.on('finish', () => {
         const { statusCode } = response;
-        const contentLength = response.get('content-length');
+        // const contentLength = response.get('content-length');
         const diff = process.hrtime(startAt);
         const responseTime = diff[0] * 1e3 + diff[1] * 1e-6;
         this.logger.log(
           `${now.valueOf()} finish ${method} ${originalUrl} ${statusCode} 
                     ${Math.round(
-                      responseTime,
-                    )}ms - ${userAgent} ${ip} - Token: ${
-            request.headers.authorization || null
-          } - Request body: ${JSON.stringify(request.body || {})}`,
+    responseTime,
+  )}ms - ${userAgent} ${ip} - Token: ${request.headers.authorization || null
+} - Request body: ${JSON.stringify(request.body || {})}`,
         );
       });
     }

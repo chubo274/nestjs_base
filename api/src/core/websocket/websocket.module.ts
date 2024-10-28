@@ -1,4 +1,4 @@
-import { forwardRef, HttpException, HttpStatus, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
 import { WebsocketGateway } from './websocket.gateway';

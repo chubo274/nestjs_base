@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 interface BaseErrorFormat {
   errCode: string;
@@ -36,7 +36,7 @@ export const Errors: IErrors = {
   DEFAULT: (data?: string) => ({
     errCode: HttpStatus.INTERNAL_SERVER_ERROR.toString(),
     statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-    message: data || "Something went wrong",
+    message: data || 'Something went wrong',
   }),
   ITEM_NOT_FOUND: (data: string) => ({
     errCode: HttpStatus.BAD_REQUEST.toString(),

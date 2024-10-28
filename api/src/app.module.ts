@@ -19,46 +19,46 @@ import { UserModule } from './modules/user/user.module';
 
 
 @Module({
-    imports: [
-        PrismaModule,
-        ScheduleModule.forRoot(),
-        CommonModule,
-        AuthModule,
-        CoreModule,
-        I18nCustomModule,
-        I18nModule.forRootAsync({
-            useFactory: (configService: BackendConfigService) => ({
-                fallbackLanguage: configService.getEnv("FALLBACK_LANGUAGE"),
-                loaderOptions: {
-                    path: path.join(__dirname, '../resources/locales'),
-                    watch: true,
-                },
-            }),
-            resolvers: [
-                { use: HeaderResolver, options: ['x-lang'] },
-                AcceptLanguageResolver
-            ],
-            inject: [BackendConfigService],
-        }),
-        UserModule,
-    ],
-    controllers: [AppController],
-    providers: [
-        AppService,
-        {
-            provide: APP_FILTER,
-            useClass: AllExceptionsFilter,
+  imports: [
+    PrismaModule,
+    ScheduleModule.forRoot(),
+    CommonModule,
+    AuthModule,
+    CoreModule,
+    I18nCustomModule,
+    I18nModule.forRootAsync({
+      useFactory: (configService: BackendConfigService) => ({
+        fallbackLanguage: configService.getEnv('FALLBACK_LANGUAGE'),
+        loaderOptions: {
+          path: path.join(__dirname, '../resources/locales'),
+          watch: true,
         },
-        {
-            provide: APP_INTERCEPTOR,
-            useClass: PrismaInterceptor,
-        },
-    ],
+      }),
+      resolvers: [
+        { use: HeaderResolver, options: ['x-lang'] },
+        AcceptLanguageResolver
+      ],
+      inject: [BackendConfigService],
+    }),
+    UserModule,
+  ],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: PrismaInterceptor,
+    },
+  ],
 })
 
 export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer): void {
-        consumer.apply(IPMiddleware).forRoutes('*');
-        consumer.apply(LoggerMiddleware).forRoutes('*');
-    }
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(IPMiddleware).forRoutes('*');
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
 }

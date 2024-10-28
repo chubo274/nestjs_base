@@ -60,7 +60,7 @@ export class UploadController {
   })
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log("file", file)
+    console.info('file', file)
     return {
       uri: `${file.destination.split('/public/')[1]}/${file.filename}`,
       fileType: mimeTypeToMediaType(file.mimetype)

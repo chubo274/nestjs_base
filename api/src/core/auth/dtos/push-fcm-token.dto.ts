@@ -3,10 +3,10 @@ import { IsNotEmpty, IsString } from 'class-validator';
 
 export class PushFcmTokenDto {
     @ApiProperty({
-        example: '',
-        required: true,
+      example: '',
+      required: true,
     })
     @IsString()
     @IsNotEmpty()
-    readonly fcm: string;
+  readonly fcm: string;
 }

@@ -1,7 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { UserRole, UserStatus } from "@prisma/client";
-import { IsEnum, IsOptional } from "class-validator";
-import { FilterOptions } from "src/helpers/common/filterOption.dto";
+import { ApiProperty } from '@nestjs/swagger';
+import { UserRole, UserStatus } from '@prisma/client';
+import { IsEnum, IsOptional } from 'class-validator';
+import { FilterOptions } from 'src/helpers/common/filterOption.dto';
 
 export class ListCustomerDto extends FilterOptions {
   @ApiProperty({

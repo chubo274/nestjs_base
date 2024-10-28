@@ -22,7 +22,7 @@ export class BackendConfigService {
       {
         namespace: COMMON_CONSTANT.REDIS_DEFAULT_NAMESPACE,
         connectionName: COMMON_CONSTANT.REDIS_DEFAULT_NAMESPACE,
-        password: this.getEnv("REDIS_PASSWORD"),
+        password: this.getEnv('REDIS_PASSWORD'),
         host: this.getEnv('REDIS_HOST'),
         port: Number(this.getEnv('REDIS_PORT')),
       },

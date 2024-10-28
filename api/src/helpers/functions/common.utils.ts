@@ -1,14 +1,12 @@
-import { ConfigService } from '@nestjs/config';
 import moment from 'moment';
 import { customAlphabet } from 'nanoid';
 import path from 'path';
 import { COMMON_CONSTANT } from 'src/helpers/constants/common.constant';
 import { MediaType } from 'src/helpers/constants/enum.constant';
 import { RegexConstant } from 'src/helpers/constants/regex.constant';
-import { BackendConfigService } from 'src/core/services/backend-config.service';
 import * as XLSX from 'xlsx';
 
-const configService = new BackendConfigService(new ConfigService());
+// const configService = new BackendConfigService(new ConfigService());
 
 export function getTimeFromNow(minutes = 0) {
   const now = new Date();
@@ -39,7 +37,7 @@ export function hasRequiredProperties(properties: Array<string>, obj) {
   // return obj.hasOwnProperty('type') && obj.hasOwnProperty('count');
 }
 
-export function _hasRequiredProperties<T, K extends keyof T>(properties, obj: T) {
+export function _hasRequiredProperties<T,>(properties, obj: T) {
   return properties.every(
     (prop) => obj.hasOwnProperty(prop) && obj[prop] !== null,
   );
@@ -47,8 +45,8 @@ export function _hasRequiredProperties<T, K extends keyof T>(properties, obj: T)
 }
 
 export function sortObject(obj) {
-  let sorted = {};
-  let str = [];
+  const sorted = {};
+  const str = [];
   let key;
   for (key in obj) {
     if (obj.hasOwnProperty(key)) {
@@ -100,7 +98,7 @@ export function parseQueryString(queryString: string): Record<string, string> {
 }
 
 export function mimeTypeToMediaType(mimeType: string) {
-  console.log(mimeType)
+  console.info(mimeType)
   if (RegexConstant.ImageReg.test(mimeType))
     return MediaType.IMAGE
   if (RegexConstant.VideoReg.test(mimeType))
@@ -112,7 +110,7 @@ export function mimeTypeToMediaType(mimeType: string) {
 export function concatValueInObject(obj) {
   let result = '';
 
-  for (let key in obj) {
+  for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       if (typeof obj[key] === 'string') {
         result += obj[key];
@@ -126,9 +124,9 @@ export function concatValueInObject(obj) {
 export function getApiAndMethodFromRequest(request: Request) {
   const API_PREFIX = 'api/v1'
   let url = request.url.split(API_PREFIX)[1]
-  if (request.method === "GET") {
-    if (request.url.includes("?"))
-      url = url.split("?")[0]
+  if (request.method === 'GET') {
+    if (request.url.includes('?'))
+      url = url.split('?')[0]
   }
   const method = request.method
   return `${method} ${url}`
@@ -136,7 +134,7 @@ export function getApiAndMethodFromRequest(request: Request) {
 
 export function getDates(startDate, endDate) {
   const dates = [];
-  let currentDate = new Date(startDate);
+  const currentDate = new Date(startDate);
   const lastDate = new Date(endDate);
 
   while (currentDate <= lastDate) {

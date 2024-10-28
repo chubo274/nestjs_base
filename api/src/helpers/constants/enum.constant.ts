@@ -1,7 +1,7 @@
 
 export enum NotificationType {
   DEFAULT = 'DEFAULT',
-};
+}
 
 export enum FORMAT_DATE {
   DATE_TIME = 'YYYY-MM-DD HH:mm:ss',
@@ -20,26 +20,26 @@ export enum Platform {
 }
 
 export enum LoginMethod {
-  PHONE = "PHONE",
-  EMAIL = "EMAIL",
+  PHONE = 'PHONE',
+  EMAIL = 'EMAIL',
 }
 
 export enum MediaType {
-  IMAGE = "IMAGE",
-  VIDEO = "VIDEO",
-  PDF = "PDF",
+  IMAGE = 'IMAGE',
+  VIDEO = 'VIDEO',
+  PDF = 'PDF',
 }
 
 export enum UserStatus {
-  ACTIVE = "ACTIVE",
-  BANNED = "BANNED",
-  DELETED = "DELETED"
+  ACTIVE = 'ACTIVE',
+  BANNED = 'BANNED',
+  DELETED = 'DELETED'
 }
 
 export enum Gender {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
-  OTHER = "OTHER"
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER'
 }
 
 export enum Language {
@@ -51,4 +51,4 @@ export enum AppType {
   WEB_HOOK = 'WEB_HOOK',
   REPORT = 'REPORT',
 }
-///////// 
+/// ////// 

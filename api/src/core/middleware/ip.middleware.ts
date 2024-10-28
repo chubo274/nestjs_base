@@ -7,8 +7,8 @@ export interface CustomRequest extends Request { clientIp?: string; }
 
 @Injectable()
 export class IPMiddleware implements NestMiddleware {
-    use(request: CustomRequest, response: Response, next: NextFunction): void {
-        request.clientIp = requestIp.getClientIp(request);
-        next();
-    }
+  use(request: CustomRequest, response: Response, next: NextFunction): void {
+    request.clientIp = requestIp.getClientIp(request);
+    next();
+  }
 }

@@ -1,30 +1,27 @@
 import {
-  CallHandler, ConflictException, ExecutionContext, HttpException, HttpStatus, Injectable,
+  CallHandler, ConflictException, ExecutionContext,
+  Injectable,
   NestInterceptor, RequestTimeoutException
 } from '@nestjs/common';
 import { UserRole } from '@prisma/client';
 import { Observable, throwError, TimeoutError } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { catchError, timeout } from 'rxjs/operators';
-import { v4 as uuidv4 } from 'uuid';
+import { catchError, map, timeout } from 'rxjs/operators';
 
-export interface Response<T> {
+export interface Response {
   // data: T;
 }
 
 @Injectable()
 export class PrismaInterceptor<T>
-  implements NestInterceptor<T, Response<T>> {
-  constructor(
-    // private readonly actionAdminService: ActionAdminService
-  ) { }
-  intercept(context: ExecutionContext, next: CallHandler,): Observable<Response<T>> {
+implements NestInterceptor<T, Response> {
+  // constructor(private readonly actionAdminService: ActionAdminService) { }
+  intercept(context: ExecutionContext, next: CallHandler,): Observable<Response> {
     const request = context.switchToHttp().getRequest();
-    const { ip, method, originalUrl, body } = request;
+    const { method, originalUrl } = request;
     // console.info(`PrismaInterceptor ${originalUrl} request: `, request);
     return next.handle().pipe(
       map(async (response) => {
-        const requestId = uuidv4();
+        // const requestId = uuidv4();
 
         const user = request?.user?.data;
         const role: UserRole = user?.userType;

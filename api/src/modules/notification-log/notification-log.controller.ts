@@ -35,7 +35,6 @@ export class NotificationLogsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   async findAll(@UserDecorator() user: IUserJwt, @Query() options: NotificationLogsFilterDto) {
-    let whereInput: Prisma.NotificationLogsFindManyArgs;
     let where: Prisma.NotificationLogsWhereInput = { AND: [] };
     let whereNotiWith: Prisma.NotificationLogsWithWhereInput = { AND: [], userReceiveId: user.data.id };
 
@@ -62,7 +61,7 @@ export class NotificationLogsController {
       };
     }
 
-    whereInput = {
+    const whereInput: Prisma.NotificationLogsFindManyArgs = {
       where: {
         ...where,
         NotificationLogsWith: {
@@ -108,7 +107,6 @@ export class NotificationLogsController {
     @UserDecorator() user: IUserJwt,
     @Query() options: NotificationLogsFilterDto
   ) {
-    let whereInput: Prisma.NotificationLogsFindManyArgs;
     let where: Prisma.NotificationLogsWhereInput = { AND: [] };
     let whereNotiWith: Prisma.NotificationLogsWithWhereInput = { AND: [] };
 
@@ -135,7 +133,7 @@ export class NotificationLogsController {
       };
     }
 
-    whereInput = {
+    const whereInput: Prisma.NotificationLogsFindManyArgs = {
       where: {
         ...where,
         NotificationLogsWith: {

@@ -7,7 +7,7 @@ import { UserStatus } from 'src/helpers/constants/enum.constant';
 import { UserService } from 'src/modules/user/user.service';
 import { IJwtPayload } from '../interfaces/jwt-payload.interface';
 export interface IUserJwt {
-  data: Omit<User, "password">;
+  data: Omit<User, 'password'>;
   role: UserRole;
 }
 @Injectable()

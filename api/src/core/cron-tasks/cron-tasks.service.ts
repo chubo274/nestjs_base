@@ -3,7 +3,7 @@ import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class CronTasksService {
-    constructor(
+  constructor(
         private primsa: PrismaService,
-    ) { }
+  ) { }
 }

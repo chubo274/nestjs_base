@@ -21,7 +21,7 @@ export class NodeMailerService {
         text
       })
       .then((rs) => {
-        console.log(rs)
+        console.info(rs)
       })
       .catch((err) => {
         this.logger.debug(`Send mail error: ${JSON.stringify(err)}`);

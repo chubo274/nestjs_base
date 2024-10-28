@@ -1,12 +1,11 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { I18nContext, I18nTranslation } from 'nestjs-i18n';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -20,7 +19,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     let httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     let message: string[] = ['Internal server error!'];
-    console.log('exception', exception);
+    console.info('exception', exception);
     if (exception instanceof HttpException) {
       httpStatus = exception.getStatus();
       const exceptionResponse = exception.getResponse() || exception.message;
@@ -29,10 +28,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
         exceptionResponse['message'] &&
         exceptionResponse['message'] instanceof Array
       ) {
-        console.log('exception', exception);
+        console.info('exception', exception);
         message = exceptionResponse['message'];
       } else {
-        console.log('exception', exception);
+        console.info('exception', exception);
 
         message = [
           (exceptionResponse &&
