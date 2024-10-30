@@ -50,7 +50,12 @@ export class NotificationLogsController {
     }
 
     if (options.textSearch) {
-      where.OR.push({ title: { contains: options.textSearch } });
+      // @ts-ignore
+      where.AND.push({
+        OR: [
+          { title: { contains: options.textSearch } },
+        ]
+      });
     }
 
     if (options?.type) {
