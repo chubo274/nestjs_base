@@ -42,7 +42,7 @@ export class UserController {
     where.AND = [];
 
     if (options.textSearch) {
-      where.AND.push(
+      where.OR.push(
         { name: { contains: options.textSearch } },
         { email: { contains: options.textSearch } },
       );
