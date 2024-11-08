@@ -5,9 +5,11 @@ import { WebsocketGateway } from './websocket.gateway';
 import { WebsocketService } from './websocket.service';
 
 @Module({
-  imports: [JwtModule],
+  exports: [WebsocketGateway, WebsocketService],
   controllers: [],
   providers: [WebsocketService, WebsocketGateway],
-  exports: [WebsocketGateway],
+  imports: [
+    JwtModule,
+  ],
 })
 export class WebsocketModule { }

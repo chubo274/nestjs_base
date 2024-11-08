@@ -7,6 +7,7 @@ import configurationCommon from 'src/helpers/common/configuration.common';
 import { CronTasksModule } from './cron-tasks/cron-tasks.module';
 import { NodeMailerModule } from './node-mailer/node-mailer.module';
 import { UploadModule } from './upload/upload.module';
+import { WebsocketModule } from './websocket/websocket.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UploadModule } from './upload/upload.module';
     UploadModule,
     NodeMailerModule,
     CronTasksModule,
+    WebsocketModule,
     PrismaModule
   ],
   providers: [],
